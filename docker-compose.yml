@@ -75,7 +75,7 @@ services:
       TS_USERSPACE: false
       TS_AUTH_ONCE: false
       TS_HOSTNAME: pi-hole
-      TS_EXTRA_ARGS: --accept-dns=false --reset --accept-routes --advertise-exit-node
+      TS_EXTRA_ARGS: --accept-dns=false --reset --accept-routes --advertise-exit-node --advertise-routes=192.168.0.0/24:*,0.0.0.0/0
     network_mode: host
     cap_add:
       - NET_ADMIN
