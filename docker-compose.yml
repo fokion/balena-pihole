@@ -4,11 +4,6 @@ volumes:
   pihole_config: { }
   dnsmasq_config: { }
   tailscale: { }
-networks:
-  tailscale:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: 1280
 services:
   pihole:
 
@@ -73,15 +68,13 @@ services:
   tailscale:
     image: tailscale/tailscale:v1.66.4@sha256:8c80cf92bfbc6938d05826b1aee899e629b231cecf7921bd1d72a4150e71e3f3
     restart: unless-stopped
-    networks:
-      - tailscale
     environment:
       TS_STATE_DIR: /var/lib/tailscale
       TS_SOCKET: /var/run/tailscale/tailscaled.sock
       TS_USERSPACE: false
       TS_AUTH_ONCE: false
       TS_HOSTNAME: pi-hole
-      TS_EXTRA_ARGS: --accept-dns=false --reset --accept-routes --advertise-exit-node --stateful-filtering=false
+      TS_EXTRA_ARGS: --accept-dns=false --reset --accept-routes --advertise-exit-node --advertise-routes=192.168.0.0/24,0.0.0.0/0 --stateful-filtering=false
     network_mode: host
     cap_add:
       - NET_ADMIN
